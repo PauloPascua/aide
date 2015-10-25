@@ -39,8 +39,14 @@ angular.module('app.routes', ['ngRoute'])
 
 		// page to edit a user
 		.when('/users/:user_id', {
-			templateUrl: 'app/views/pages/users/single.html',
+			templateUrl: 'app/views/pages/users/editsingle.html',
 			controller: 'userEditController',
+			controllerAs: 'user'
+		})
+
+		.when('/u/:user_username', {
+			templateUrl: 'app/views/pages/users/viewuser.html',
+			controller: 'userViewController',
 			controllerAs: 'user'
 		});
 

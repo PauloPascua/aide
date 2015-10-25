@@ -24,11 +24,11 @@ module.exports = function(app, express) {
 					return res.json({ success: false, message: 'A user with that username already exists. '});
 				else
 					return res.send(err);
+			} else {
+				// return a message
+				console.log(newUser);
+				res.json({ message: 'Successfully signed up!' });
 			}
-
-			// return a message
-			console.log(newUser);
-			res.json({ message: 'Successfully signed up!' });
 		});
 	});
 
@@ -120,12 +120,6 @@ module.exports = function(app, express) {
 	  }
 	});
 
-	// test route to make sure everything is working 
-	// accessed at GET http://localhost:8080/api
-	apiRouter.get('/', function(req, res) {
-		res.json({ message: 'hooray! welcome to our api!' });	
-	});
-
 	// on routes that end in /users
 	// ----------------------------------------------------
 	apiRouter.route('/users')
@@ -145,10 +139,7 @@ module.exports = function(app, express) {
 						return res.json({ success: false, message: 'A user with that username already exists. '});
 					else 
 						return res.send(err);
-				}
-
-				// return a message
-				res.json({ message: 'User created!' });
+				} else res.json({ message: 'User created!' }); // return a message
 			});
 
 		})
@@ -160,7 +151,7 @@ module.exports = function(app, express) {
 				if (err) res.send(err);
 
 				// return the users
-				res.json(users);
+				else res.json(users);
 			});
 		});
 
@@ -172,9 +163,7 @@ module.exports = function(app, express) {
 		.get(function(req, res) {
 			User.findById(req.params.user_id, function(err, user) {
 				if (err) res.send(err);
-
-				// return that user
-				res.json(user);
+				else res.json(user);
 			});
 		})
 
@@ -183,20 +172,18 @@ module.exports = function(app, express) {
 			User.findById(req.params.user_id, function(err, user) {
 
 				if (err) res.send(err);
+				else {
+					// set the new user information if it exists in the request
+					if (req.body.name) user.name = req.body.name;
+					if (req.body.username) user.username = req.body.username;
+					if (req.body.password) user.password = req.body.password;
 
-				// set the new user information if it exists in the request
-				if (req.body.name) user.name = req.body.name;
-				if (req.body.username) user.username = req.body.username;
-				if (req.body.password) user.password = req.body.password;
-
-				// save the user
-				user.save(function(err) {
-					if (err) res.send(err);
-
-					// return a message
-					res.json({ message: 'User updated!' });
-				});
-
+					// save the user
+					user.save(function(err) {
+						if (err) res.send(err);
+						else res.json({ message: 'User updated!' });
+					});
+				}
 			});
 		})
 
@@ -206,10 +193,23 @@ module.exports = function(app, express) {
 				_id: req.params.user_id
 			}, function(err, user) {
 				if (err) res.send(err);
-
-				res.json({ message: 'Successfully deleted' });
+				else res.json({ message: 'Successfully deleted' });
 			});
 		});
+
+	/*
+	Fixed the bug by making a new method in the User factory in userService.js. Kaya siya
+	nag-ca-CastError kasi yung userFactory.get accepts id as a parameter, but in this case,
+	we're looking for a user from a given username. That's why I created the method
+	userFactory.getFromUsername, which fixes the problem.
+	*/
+
+	apiRouter.get('/u/:user_username', function(req, res) {
+		User.findOne({ username : req.params.user_username }, function(err, user) {
+			if (err) res.send(err);
+			else res.json(user);
+		});
+	});
 
 	// api endpoint to get user information
 	apiRouter.get('/me', function(req, res) {

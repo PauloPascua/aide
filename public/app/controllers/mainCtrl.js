@@ -53,7 +53,7 @@ angular.module('mainCtrl', [])
 	    Auth.login(vm.signupData.username, vm.signupData.password)
 	        .success(function(data) {
 	            if (data.success)
-	                $location.path('/users')
+	                $location.path('/users');
 	            else
 	                vm.error = data.message;
 	        });

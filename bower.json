@@ -1,0 +1,19 @@
+{
+  "name": "aide",
+  "version": "0.0.0",
+  "homepage": "https://github.com/PauloPascua/aide",
+  "authors": [
+    "Paulo Pascua <paulocpascua@gmail.com>"
+  ],
+  "description": "",
+  "main": "server.js",
+  "moduleType": [],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

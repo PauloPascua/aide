@@ -18,7 +18,7 @@ gulp.task('nodemon', function() {
 });
 
 gulp.task('jshint', function() {
-    return gulp.src(['app/**/*.js', 'public/**/*.js', 'server.js'])
+    return gulp.src(['app/**/*.js', 'public/app/**/*.js', 'server.js'])
         .pipe(jshint())
         .pipe(jshint.reporter('jshint-stylish'));
 });

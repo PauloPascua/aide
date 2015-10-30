@@ -13,7 +13,7 @@ angular.module('app.routes', ['ngRoute'])
 		.when('/login', {
 			templateUrl : 'app/views/pages/login.html',
    			controller  : 'mainController',
-    			controllerAs: 'login'
+    		controllerAs: 'login'
 		})
 
 		.when('/signup', {
@@ -24,7 +24,7 @@ angular.module('app.routes', ['ngRoute'])
 		
 		// show all users
 		.when('/users', {
-			templateUrl: 'app/views/pages/users/all.html',
+			templateUrl: 'app/views/pages/users/allUsers.html',
 			controller: 'userController',
 			controllerAs: 'user'
 		})
@@ -32,9 +32,9 @@ angular.module('app.routes', ['ngRoute'])
 		// form to create a new user
 		// same view as edit page
 		.when('/users/create', {
-			templateUrl: 'app/views/pages/users/single.html',
+			templateUrl: 'app/views/pages/users/editsingle.html',
 			controller: 'userCreateController',
-			controllerAs: 'user'
+			controllerAs: 'userCreateCtrl'
 		})
 
 		// page to edit a user
@@ -48,7 +48,27 @@ angular.module('app.routes', ['ngRoute'])
 			templateUrl: 'app/views/pages/users/viewuser.html',
 			controller: 'userViewController',
 			controllerAs: 'user'
+		})
+
+		.when('/events', {
+			templateUrl: 'app/views/pages/events/allEvents.html',
+			controller: 'eventController',
+			controllerAs: 'eventCtrl'
+		})
+
+		.when('/events/create', {
+			templateUrl: 'app/views/pages/events/createEvent.html',
+			controller: 'eventCreateController',
+			controllerAs: 'eventCreateCtrl'
+		})
+
+		.when('/events/:event_id', {
+			templateUrl: 'app/views/pages/events/viewEvent.html',
+			controller: 'eventViewController',
+			controllerAs: 'eventViewCtrl'
 		});
+
+		// participants' page
 
 	$locationProvider.html5Mode(true);
 

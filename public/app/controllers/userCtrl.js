@@ -50,7 +50,6 @@ angular.module('userCtrl', ['userService'])
 
 	// function to create a user
 	vm.saveUser = function() {
-		console.log('test!!!');
 		vm.processing = true;
 		vm.message = '';
 
@@ -116,23 +115,5 @@ angular.module('userCtrl', ['userService'])
 		.success(function(data) {
 			vm.userData = data;
 		});
-
-	// function to save the user
-/*	vm.saveUser = function() {
-		vm.processing = true;
-		vm.message = '';
-
-		// call the userService function to update 
-		User.update($routeParams.user_id, vm.userData)
-			.success(function(data) {
-				vm.processing = false;
-
-				// clear the form
-				vm.userData = {};
-
-				// bind the message from our API to vm.message
-				vm.message = data.message;
-			});
-	};*/
 
 });

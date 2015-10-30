@@ -1,7 +1,8 @@
-var bodyParser = require('body-parser'); 	// get body-parser
-var User       = require('../models/user');
-var jwt        = require('jsonwebtoken');
-var config     = require('../../config');
+var bodyParser   = require('body-parser'); 	// get body-parser
+var User         = require('../models/user');
+var Event 		 = require('../models/event');
+var jwt          = require('jsonwebtoken');
+var config       = require('../../config');
 
 // super secret for creating tokens
 var superSecret = config.secret;
@@ -10,7 +11,11 @@ module.exports = function(app, express) {
 
 	var apiRouter = express.Router();
 
-	// route to signup (hopefully no token interceptor)
+	/* ============= */
+	/* PUBLIC ROUTES */
+	/* ============= */
+	// Views that do not need user tokens
+
 	apiRouter.post('/signup', function(req, res) {
 		var newUser = new User();
 		newUser.name = req.body.name;
@@ -31,6 +36,40 @@ module.exports = function(app, express) {
 			}
 		});
 	});
+
+	apiRouter.route('/events')
+
+		// retrieve all events
+		.get(function(req, res) {
+			Event.find({}, function(err, events) {
+				if (err) res.send(err);
+				else res.json(events);
+			});	
+		})
+
+		.post(function(req, res) {
+			var e = new Event();
+			e.name = req.body.name;
+			e.description = req.body.description;
+			e.date = req.body.date;
+
+			e.save(function(err) {
+				if (err) res.send(err); // no error-checking for dupes
+				else res.json({ message: 'Event created! '});
+			});
+		});
+
+	apiRouter.route('/events/:event_id')
+
+		// get the event with that id
+		.get(function(req, res) {
+			Event.findById(req.params.event_id, function(err, ev) {
+				if (err) res.send(err);
+				else res.json(ev);
+			});
+		});
+
+		// .put() for update
 
 	// route to authenticate a user (POST http://localhost:8080/api/authenticate)
 	apiRouter.post('/authenticate', function(req, res) {
@@ -197,13 +236,6 @@ module.exports = function(app, express) {
 			});
 		});
 
-	/*
-	Fixed the bug by making a new method in the User factory in userService.js. Kaya siya
-	nag-ca-CastError kasi yung userFactory.get accepts id as a parameter, but in this case,
-	we're looking for a user from a given username. That's why I created the method
-	userFactory.getFromUsername, which fixes the problem.
-	*/
-
 	apiRouter.get('/u/:user_username', function(req, res) {
 		User.findOne({ username : req.params.user_username }, function(err, user) {
 			if (err) res.send(err);
@@ -216,5 +248,9 @@ module.exports = function(app, express) {
 		res.send(req.decoded);
 	});
 
+	/*========================*/
+	/* 		   EVENTS		  */
+	/*========================*/
+	
 	return apiRouter;
 };

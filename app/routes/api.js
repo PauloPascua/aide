@@ -245,7 +245,6 @@ module.exports = function(app, express) {
 			e.description = req.body.description;
 			e.date = req.body.date;
 			e.venue = req.body.venue;
-			e.participants = req.body.participants;
 			e.host = req.body.host;
 			e.tags = req.body.tags;
 

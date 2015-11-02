@@ -26,28 +26,27 @@ angular.module('app.routes', ['ngRoute'])
 		.when('/users', {
 			templateUrl: 'app/views/pages/users/allUsers.html',
 			controller: 'userController',
-			controllerAs: 'user'
+			controllerAs: 'userAllCtrl'
 		})
 
-		// form to create a new user
-		// same view as edit page
+		/* removed, obsoleted by signup
 		.when('/users/create', {
-			templateUrl: 'app/views/pages/users/editsingle.html',
+			templateUrl: 'app/views/pages/users/editUser.html',
 			controller: 'userCreateController',
 			controllerAs: 'userCreateCtrl'
-		})
+		}) */
 
 		// page to edit a user
 		.when('/users/:user_id', {
-			templateUrl: 'app/views/pages/users/editsingle.html',
+			templateUrl: 'app/views/pages/users/editUser.html',
 			controller: 'userEditController',
-			controllerAs: 'user'
+			controllerAs: 'userEditCtrl'
 		})
 
 		.when('/u/:user_username', {
-			templateUrl: 'app/views/pages/users/viewuser.html',
+			templateUrl: 'app/views/pages/users/viewUser.html',
 			controller: 'userViewController',
-			controllerAs: 'user'
+			controllerAs: 'userViewCtrl'
 		})
 
 		.when('/events', {

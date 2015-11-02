@@ -105,10 +105,6 @@ angular.module('userCtrl', ['userService'])
 
 	var vm = this;
 
-	// variable to hide/show elements of the view
-	// differentiates between create or edit pages
-	vm.type = 'edit';
-
 	// get the user data for the user you want to edit
 	// $routeParams is the way we grab data from the URL
 	User.getFromUsername($routeParams.user_username)

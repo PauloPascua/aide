@@ -37,39 +37,23 @@ module.exports = function(app, express) {
 		});
 	});
 
-	apiRouter.route('/events')
+	// get all events
+	apiRouter.get('/events', function(req, res) {
+		Event.find({}, function(err, events) {
+			if (err) res.send(err);
+			else res.json(events);
+		});	
+	});
 
-		// retrieve all events
-		.get(function(req, res) {
-			Event.find({}, function(err, events) {
-				if (err) res.send(err);
-				else res.json(events);
-			});	
-		})
-
-		.post(function(req, res) {
-			var e = new Event();
-			e.name = req.body.name;
-			e.description = req.body.description;
-			e.date = req.body.date;
-
-			e.save(function(err) {
-				if (err) res.send(err); // no error-checking for dupes
-				else res.json({ message: 'Event created! '});
-			});
+	// get an event
+	apiRouter.get('/event/:event_id', function(req, res) {
+		Event.findById(req.params.event_id, function(err, ev) {
+			if (err) res.send(err);
+			else res.json(ev);
 		});
+	});
 
-	apiRouter.route('/events/:event_id')
-
-		// get the event with that id
-		.get(function(req, res) {
-			Event.findById(req.params.event_id, function(err, ev) {
-				if (err) res.send(err);
-				else res.json(ev);
-			});
-		});
-
-		// .put() for update
+	// .put() for update
 
 	// route to authenticate a user (POST http://localhost:8080/api/authenticate)
 	apiRouter.post('/authenticate', function(req, res) {
@@ -251,6 +235,30 @@ module.exports = function(app, express) {
 	/*========================*/
 	/* 		   EVENTS		  */
 	/*========================*/
+
+	// create an event
+	apiRouter.route('/events')
+		.get(function(req, res) {
+			var e = new Event();
+			
+			e.name = req.body.name;
+			e.description = req.body.description;
+			e.date = req.body.date;
+			e.venue = req.body.venue;
+			e.participants = req.body.participants;
+			e.host = req.body.host;
+			e.tags = req.body.tags;
+
+			e.save(function(err) {
+				if (err) res.send(err); // no error-checking for dupes
+				else res.json({ message: 'Event created! '});
+			});
+		});
+
+	/*apiRouter.route('/event/:event_id')
+		.put(function(req, res) {
+
+		})*/
 	
 	return apiRouter;
 };

@@ -4,7 +4,17 @@ var Schema   = mongoose.Schema;
 var eventSchema = new Schema({
     name: String,
     description: String,
-    date: Date
+    date: Date,
+    venue: String, // String temporarily
+    participants: [{
+        type: Schema.ObjectId,
+        ref: 'users'
+    }],
+    host: {
+        type: Schema.ObjectId,
+        ref: 'users'
+    },
+    tags: [String]
 });
 
 var Event = mongoose.model('Event', eventSchema);

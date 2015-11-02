@@ -21,9 +21,20 @@
 
     <!-- date picker -->
     <div class="form-group">
-        datepicker!!
-        <uib-datepicker ng-model="eventCreateCtrl.eventData.date"></uib-datepicker>
+        <label class="col-sm-2 control-label">Date</label>
+        <div class="col-sm-6">
+            <uib-datepicker ng-model="eventCreateCtrl.eventData.date"></uib-datepicker>
+        </div>
     </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Venue</label>
+        <div class="col-sm-6">
+            <input type="text" class="form-control" ng-model="eventCreateCtrl.eventData.venue">
+        </div>
+    </div>
+
+    <!-- tags -->
     
     <div class="form-group">
     <div class="col-sm-offset-2 col-sm-6">

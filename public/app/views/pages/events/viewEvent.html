@@ -2,11 +2,28 @@
     <h2>{{ eventViewCtrl.eventData.name }}</h2>
 </div>
 
-<h4>Owned by: ____</h4>
+<h4>Owned by: {{ eventViewCtrl.eventData.host }}</h4>
 
 <br>
 <br>
-
+<p> {{ eventViewCtrl.eventData.date }} </p>
+<p> {{ eventViewCtrl.eventData.venue }} </p>
 <p> {{ eventViewCtrl.eventData.description }}</p>
+
+<h6>Participants</h6>
+<table class="table table-bordered table-striped" ng-show="eventViewCtrl.eventData.participants">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Username</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="participant in eventViewCtrl.eventData.participants">
+            <td>{{ participant.name }}</td>
+            <td>{{ participant.username }}</td>
+        </tr>
+    </tbody>
+</table>
 
 <a href="/events">Back to events</a>

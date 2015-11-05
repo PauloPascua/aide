@@ -27,6 +27,8 @@ angular.module('eventCtrl', ['eventService'])
                 vm.processing = false;
                 vm.eventData = {};
                 vm.message = data.message;
+
+                // $location.path('/events');
             });
     };
 })

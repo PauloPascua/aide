@@ -5,6 +5,7 @@
 var express    = require('express');		// call express
 var app        = express(); 				// define our app using express
 var bodyParser = require('body-parser'); 	// get body-parser
+var moment     = require('moment');
 var morgan     = require('morgan'); 		// used to see requests
 var mongoose   = require('mongoose');
 var config 	   = require('./config');
@@ -23,6 +24,9 @@ app.use(function(req, res, next) {
 	res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type, Authorization');
 	next();
 });
+
+// use Moment
+moment().format();
 
 // log all requests to the console 
 app.use(morgan('dev'));

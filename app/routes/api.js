@@ -238,19 +238,26 @@ module.exports = function(app, express) {
 
 	// create an event
 	apiRouter.route('/events')
-		.get(function(req, res) {
+		.post(function(req, res) {
 			var e = new Event();
 			
 			e.name = req.body.name;
 			e.description = req.body.description;
 			e.date = req.body.date;
 			e.venue = req.body.venue;
-			e.host = req.body.host;
-			e.tags = req.body.tags;
+			// e.host = req.body.host;
+			// e.tags = req.body.tags;
 
 			e.save(function(err) {
-				if (err) res.send(err); // no error-checking for dupes
-				else res.json({ message: 'Event created! '});
+				if (err) {
+					// duplicate entry
+					if (err.code == 11000) 
+						return res.json({ success: false, message: 'A user with that username already exists. '});
+					else 
+						return res.send(err);
+				}
+				
+				res.json({ message: 'Event created! '});
 			});
 		});
 

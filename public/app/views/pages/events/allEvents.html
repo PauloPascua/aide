@@ -15,6 +15,6 @@
 <div ng-repeat="event in eventCtrl.eventsData">
     <h2>{{ event.name }}</h2>  
     <p>{{ event.description }}</p>
-    <p>{{ event.date }}</p>
+    <p>{{ event.date | date:'fullDate'}}</p>
     <p>{{ event.host }}</p>
 </div>

@@ -16,5 +16,6 @@
     <h2>{{ event.name }}</h2>  
     <p>{{ event.description }}</p>
     <p>{{ event.date | date:'fullDate'}}</p>
+    <p>{{ event.time.fromTime | date:'shortTime' }}&ndash;{{ event.time.toTime | date:'shortTime' }}</p>
     <p>{{ event.host }}</p>
 </div>

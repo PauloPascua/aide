@@ -5,7 +5,11 @@ var eventSchema = new Schema({
     name: String,
     description: String,
     date: Date,
-    venue: String, // String temporarily
+    time: {
+        fromTime: Date, 
+        toTime: Date
+    },
+    venue: String,
     participants: [{
         type: Schema.ObjectId,
         ref: 'users'

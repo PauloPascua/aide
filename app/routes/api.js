@@ -247,7 +247,9 @@ module.exports = function(app, express) {
 			e.venue = req.body.venue;
 			e.time.fromTime = req.body.fromTime;
 			e.time.toTime = req.body.toTime;
-			e.tags = req.body.tags.split(",");
+			
+			var temp = req.body.tags.replace(/\s+/g,"");
+			e.tags = temp.split(",");
 			// e.host = req.body.host;
 			
 			e.save(function(err) {

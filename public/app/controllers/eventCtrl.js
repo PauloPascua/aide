@@ -23,6 +23,7 @@ angular.module('eventCtrl', ['eventService'])
         // access create method in eventService
         Event.create(vm.eventData)
             .success(function(data) {
+                
                 vm.processing = false;
                 vm.eventData = {};
                 vm.message = data.message;

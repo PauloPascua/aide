@@ -17,6 +17,8 @@
     <p>{{ event.description }}</p>
     <p>{{ event.date | date:'fullDate'}}</p>
     <p>{{ event.time.fromTime | date:'shortTime' }}&ndash;{{ event.time.toTime | date:'shortTime' }}</p>
-    <!-- <p>{{ tags }}</p> -->
+    <ul class="list-inline">
+        <li ng-repeat="tag in event.tags">{{ tag }}</li>
+    </ul>
     <p>{{ event.host }}</p>
 </div>

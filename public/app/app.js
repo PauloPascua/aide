@@ -3,6 +3,7 @@ angular.module('userApp', [
     'app.routes', 
     'ui.bootstrap',
     'authService', 
+    'ngTagsInput',
     'mainCtrl', 
     'eventCtrl',
     'eventService',

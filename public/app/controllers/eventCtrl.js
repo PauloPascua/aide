@@ -14,7 +14,6 @@ angular.module('eventCtrl', ['eventService'])
 
 .controller('eventCreateController', function(Event) {
     var vm = this;
-
     vm.type = 'create';
 
     vm.saveEvent = function() {
@@ -31,6 +30,7 @@ angular.module('eventCtrl', ['eventService'])
                 // $location.path('/events');
             });
     };
+
 })
 
 .controller('eventViewController', function($routeParams, Event, Auth) {

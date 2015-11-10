@@ -247,9 +247,9 @@ module.exports = function(app, express) {
 			e.venue = req.body.venue;
 			e.time.fromTime = req.body.fromTime;
 			e.time.toTime = req.body.toTime;
+			e.tags = req.body.tags;
 			// e.host = req.body.host;
-			// e.tags = req.body.tags;
-
+			
 			e.save(function(err) {
 				if (err) {
 					// duplicate entry

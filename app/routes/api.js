@@ -260,6 +260,7 @@ module.exports = function(app, express) {
 				.exec(function (err, user) {
 					e.host = user._id;
 
+					// save within the User.populate function
 					e.save(function(err) {
 						if (err) {
 							// duplicate entry

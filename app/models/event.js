@@ -11,11 +11,11 @@ var eventSchema = new Schema({
     },
     venue: String,
     participants: [{
-        type: Schema.ObjectId,
+        type: Schema.Types.ObjectId,
         ref: 'users'
     }],
     host: {
-        type: Schema.ObjectId,
+        type: Schema.Types.ObjectId,
         ref: 'users'
     },
     tags: [String]

@@ -241,6 +241,7 @@ module.exports = function(app, express) {
 		.post(function(req, res) {
 			var e = new Event();
 			
+			// assign user input to values
 			e.name = req.body.name;
 			e.description = req.body.description;
 			e.date = req.body.date;
@@ -248,21 +249,29 @@ module.exports = function(app, express) {
 			e.time.fromTime = req.body.fromTime;
 			e.time.toTime = req.body.toTime;
 			
+			// split tags into array
 			var temp = req.body.tags.replace(/\s+/g,"");
 			e.tags = temp.split(",");
-			// e.host = req.body.host;
-			
-			e.save(function(err) {
-				if (err) {
-					// duplicate entry
-					if (err.code == 11000) 
-						return res.json({ success: false, message: 'A user with that username already exists. '});
-					else 
-						return res.send(err);
-				}
-				
-				res.json({ message: 'Event created! '});
-			});
+
+			// NOT ELEGANT AT ALL HAHA
+			User
+				.findOne({ username: req.decoded.username })
+				.populate('host')
+				.exec(function (err, user) {
+					e.host = user._id;
+
+					e.save(function(err) {
+						if (err) {
+							// duplicate entry
+							if (err.code == 11000) 
+								return res.json({ success: false, message: 'A user with that username already exists. '});
+							else 
+								return res.send(err);
+						}
+						
+						res.json({ message: 'Event created! '});
+					});		
+				});
 		});
 
 	/*apiRouter.route('/event/:event_id')

@@ -12,7 +12,7 @@ angular.module('eventCtrl', ['eventService'])
         });
 })
 
-.controller('eventCreateController', function(Event) {
+.controller('eventCreateController', function(Event, Auth) {
     var vm = this;
     vm.type = 'create';
 

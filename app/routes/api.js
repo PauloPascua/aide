@@ -51,7 +51,7 @@ module.exports = function(app, express) {
 	});
 
 	// get an event
-	apiRouter.get('/event/:event_id', function(req, res) {
+	apiRouter.get('/events/:event_id', function(req, res) {
 		Event.findById(req.params.event_id, function(err, ev) {
 			if (err) res.send(err);
 			res.json(ev);

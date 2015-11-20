@@ -40,7 +40,6 @@ angular.module('eventCtrl', ['eventService'])
 
     Event.get($routeParams.event_id).success(function(data) {
         vm.eventData = data;
-        vm.message = data;
     });
 
     vm.processing = true;

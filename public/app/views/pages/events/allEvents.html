@@ -13,7 +13,8 @@
 
 <!-- show events in posts -->
 <div ng-repeat="event in eventCtrl.eventsData">
-    <h2>{{ event.name }}</h2>  
+    <h2><a href="/{{ event.host.hostName }}/{{ event.name }}">{{ event.name }}</a></h2>  
+    <p>{{ event._id }}</p>
     <p>{{ event.description }}</p>
     <p>{{ event.date | date:'fullDate'}}</p>
     <p>{{ event.time.fromTime | date:'shortTime' }}&ndash;{{ event.time.toTime | date:'shortTime' }}</p>
@@ -21,5 +22,4 @@
         <li ng-repeat="tag in event.tags">{{ tag }}</li>
     </ul>
     <p>Host: {{ event.host.hostName }}</p>
-
 </div>

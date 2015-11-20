@@ -2,13 +2,14 @@
     <h2>{{ eventViewCtrl.eventData.name }}</h2>
 </div>
 
-<h4>Owned by: {{ eventViewCtrl.eventData.host }}</h4>
+<h4>Owned by: {{ eventViewCtrl.eventData.host.hostName }}</h4>
 
 <br>
 <br>
-<p> {{ eventViewCtrl.eventData.date }} </p>
-<p> {{ eventViewCtrl.eventData.venue }} </p>
-<p> {{ eventViewCtrl.eventData.description }}</p>
+<p>{{ eventViewCtrl.eventData.date | date:'fullDate' }} </p>
+<p>{{ eventViewCtrl.time.fromTime | date:'shortTime'}}&ndash;{{ event.time.toTiem | date:'shortTime' }}</p>
+<p>{{ eventViewCtrl.eventData.venue }} </p>
+<p>{{ eventViewCtrl.eventData.description }}</p>
 
 <h6>Participants</h6>
 <table class="table table-bordered table-striped" ng-show="eventViewCtrl.eventData.participants">

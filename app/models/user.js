@@ -8,12 +8,12 @@ var userSchema   = new Schema({
 	username: { type: String, required: true, index: { unique: true }},
 	password: { type: String, required: true, select: false },
 	joinedEvents: [{
-		type: Schema.ObjectId,
-		ref: 'events'
+		type: Schema.Types.ObjectId,
+		ref: 'Event'
 	}],
-	ownedEvents: [{
-		type: Schema.ObjectId,
-		ref: 'events'
+	hostedEvents: [{
+		type: Schema.Types.ObjectId,
+		ref: 'Event'
 	}]
 });
 

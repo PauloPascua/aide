@@ -12,14 +12,17 @@ var eventSchema = new Schema({
     venue: String,
     participants: [{
         type: Schema.Types.ObjectId,
-        ref: 'users'
+        ref: 'User'
     }],
     host: {
-        type: Schema.Types.ObjectId,
-        ref: 'users'
+        hostId: {
+            type: Schema.Types.ObjectId,
+            ref: 'User'
+        }
     },
     tags: [String]
 });
 
 var Event = mongoose.model('Event', eventSchema);
+
 module.exports = Event;

@@ -1,6 +1,6 @@
 angular.module('eventCtrl', ['eventService'])
 
-.controller('eventController', function(Event) {
+.controller('eventController', function(Event, User) {
     var vm = this;
     vm.processing = true;
 

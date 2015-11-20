@@ -1,4 +1,4 @@
-var bodyParser   = require('body-parser'); 	// get body-parser
+var bodyParser   = require('body-parser');
 var User         = require('../models/user');
 var Event 		 = require('../models/event');
 var jwt          = require('jsonwebtoken');
@@ -26,7 +26,10 @@ module.exports = function(app, express) {
 			if (err) {
 				// username is in use
 				if (err.code == 11000)
-					return res.json({ success: false, message: 'A user with that username already exists. '});
+					return res.json({ 
+						success: false, 
+						message: 'A user with that username already exists. '
+					});
 				else
 					return res.send(err);
 			} else {
@@ -41,7 +44,24 @@ module.exports = function(app, express) {
 	apiRouter.get('/events', function(req, res) {
 		Event.find({}, function(err, events) {
 			if (err) res.send(err);
-			else res.json(events);
+			
+			// manipulate events before sending it back
+			/*for (var i = 0; i < events.length; i++) {
+				console.log(i + " " + events[i].hostName);
+				// wrong--I shouldn't update the instance here
+				User.findById(events[i].host, function(err, host) {
+					if (err) res.send(err);
+					events[i].hostName = host.username;
+				});
+
+				// wrong--population is just for querying, not updating
+				Event.populate(events[i], { path: 'host' }, function(err) {
+					events[i].hostName = events[i].host.username;
+					console.log(events[i].hostName);	
+				});
+			}*/			
+
+			res.json(events);
 		});	
 	});
 
@@ -49,13 +69,12 @@ module.exports = function(app, express) {
 	apiRouter.get('/event/:event_id', function(req, res) {
 		Event.findById(req.params.event_id, function(err, ev) {
 			if (err) res.send(err);
-			else res.json(ev);
+			res.json(ev);
 		});
 	});
 
 	// .put() for update
 
-	// route to authenticate a user (POST http://localhost:8080/api/authenticate)
 	apiRouter.post('/authenticate', function(req, res) {
 
 	  // find the user
@@ -151,15 +170,20 @@ module.exports = function(app, express) {
 		.post(function(req, res) {
 			
 			var user = new User();		// create a new instance of the User model
-			user.name = req.body.name;  // set the users name (comes from the request)
-			user.username = req.body.username;  // set the users username (comes from the request)
-			user.password = req.body.password;  // set the users password (comes from the request)
+
+			// bind req data into user
+			user.name = req.body.name;
+			user.username = req.body.username;
+			user.password = req.body.password;
 
 			user.save(function(err) {
 				if (err) {
 					// duplicate entry
 					if (err.code == 11000) 
-						return res.json({ success: false, message: 'A user with that username already exists. '});
+						return res.json({ 
+							success: false, 
+							message: 'A user with that username already exists. '
+						});
 					else 
 						return res.send(err);
 				} else res.json({ message: 'User created!' }); // return a message
@@ -248,37 +272,41 @@ module.exports = function(app, express) {
 			e.venue = req.body.venue;
 			e.time.fromTime = req.body.fromTime;
 			e.time.toTime = req.body.toTime;
-			
+
 			// split tags into array
 			var temp = req.body.tags.replace(/\s+/g,"");
 			e.tags = temp.split(",");
 
-			// NOT ELEGANT AT ALL HAHA
 			User
 				.findOne({ username: req.decoded.username })
 				.populate('host')
-				.exec(function (err, user) {
+				.exec(function(err, user) {
+					if (err) res.send(err);
+
 					e.host = user._id;
 
-					// save within the User.populate function
 					e.save(function(err) {
-						if (err) {
-							// duplicate entry
-							if (err.code == 11000) 
-								return res.json({ success: false, message: 'A user with that username already exists. '});
-							else 
-								return res.send(err);
-						}
-						
-						res.json({ message: 'Event created! '});
-					});		
+						Event
+							.populate(e, { path: 'host' }, function(err) {
+								console.log(e.host.username);
+							});
+
+					});
+
+
+					if (err) {
+						if (err.code = 11000)
+							return res.json({
+								success: false,
+								message: 'An event with the same name already exists.'
+							});
+						else return res.send(err);
+					}
+
+					res.json({ message: 'Event created!' });
 				});
+
 		});
-
-	/*apiRouter.route('/event/:event_id')
-		.put(function(req, res) {
-
-		})*/
 	
 	return apiRouter;
 };

@@ -20,8 +20,6 @@
     <ul class="list-inline">
         <li ng-repeat="tag in event.tags">{{ tag }}</li>
     </ul>
- 
-    <!-- problem!! -->
-    <p>Host: {{ event.host }}</p>
+    <p>Host: {{ event.host.hostName }}</p>
 
 </div>

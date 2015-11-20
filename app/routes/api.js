@@ -44,23 +44,8 @@ module.exports = function(app, express) {
 	apiRouter.get('/events', function(req, res) {
 		Event.find({}, function(err, events) {
 			if (err) res.send(err);
-			
-			// manipulate events before sending it back
-			/*for (var i = 0; i < events.length; i++) {
-				console.log(i + " " + events[i].hostName);
-				// wrong--I shouldn't update the instance here
-				User.findById(events[i].host, function(err, host) {
-					if (err) res.send(err);
-					events[i].hostName = host.username;
-				});
 
-				// wrong--population is just for querying, not updating
-				Event.populate(events[i], { path: 'host' }, function(err) {
-					events[i].hostName = events[i].host.username;
-					console.log(events[i].hostName);	
-				});
-			}*/			
-
+			// return events on success
 			res.json(events);
 		});	
 	});
@@ -277,34 +262,21 @@ module.exports = function(app, express) {
 			var temp = req.body.tags.replace(/\s+/g,"");
 			e.tags = temp.split(",");
 
-			User
-				.findOne({ username: req.decoded.username })
-				.populate('host')
+			// host info
+			e.host.hostId = req.decoded._id;
+			e.host.hostName = req.decoded.username;
+
+			/*User.findOne({ username: req.decoded.username })
+				.populate('host.hostId')
 				.exec(function(err, user) {
 					if (err) res.send(err);
+					e.host.hostId = user._id;	
+				});*/
 
-					e.host = user._id;
-
-					e.save(function(err) {
-						Event
-							.populate(e, { path: 'host' }, function(err) {
-								console.log(e.host.username);
-							});
-
-					});
-
-
-					if (err) {
-						if (err.code = 11000)
-							return res.json({
-								success: false,
-								message: 'An event with the same name already exists.'
-							});
-						else return res.send(err);
-					}
-
-					res.json({ message: 'Event created!' });
-				});
+			e.save(function(err) {
+				if (err) res.send(err);
+				else res.json({ message: 'Event created!'});
+			});
 
 		});
 	

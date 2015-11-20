@@ -18,7 +18,8 @@ var eventSchema = new Schema({
         hostId: {
             type: Schema.Types.ObjectId,
             ref: 'User'
-        }
+        },
+        hostName: String
     },
     tags: [String]
 });
